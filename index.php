@@ -413,14 +413,18 @@
 <script type="text/javascript">
 	$('.owl-carousel').owlCarousel({
     loop:true,
-    margin:0,
+    margin:50,
     nav:false,
     autoplay:true,
     autoplayTimeout:4000,
+    stagePadding:0,
     dots:false,
     responsive:{
         0:{
-            items:2
+            items:1
+        },
+        400:{
+        		items:2
         },
         600:{
             items:3
