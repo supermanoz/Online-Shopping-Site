@@ -193,77 +193,21 @@
 	<div class="owl-carousel owl-theme">
 				<?php
 			$sql="select * from products where is_deleted=0 order by added_date desc limit 10;";
-			$res=mysqli_query($conn,$sql);
-			if(mysqli_num_rows($res)>0){
-				while($row=mysqli_fetch_assoc($res))
-				{
-		?>
-		<div class="item">
-			<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>">
-				<div class="card card-alt card-product">
-					<img class="card-img-top img-fluid" src="image/products/<?php echo $row['prod_code'];?>.jpg" alt="Card image cap">
-					<div class="card-body card-body-alt">
-						<a href="<?php if($row['out_of_stock']==0) echo "php/add_cart.php?prod_code=".$row['prod_code']; else echo "product.php?prod_code=".$row['prod_code']; ?>"><i class="fa fa-cart-plus card-icon"></i></a>
-						<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>"><i class="fa fa-ellipsis-h card-icon"></i></a>
-						<h6><?php echo $row["prod_name"]; ?></h6>
-						<p class="card-text card-text-alt"><?php echo "Rs. ".$row["offer_price"]; ?></p>
-						<p><span style="text-decoration: line-through;"><?php echo "Rs. ".$row["marked_price"]; ?></span>
-							<?php
-								$mp=$row['marked_price'];
-								$op=$row['offer_price'];
-								$off=($mp-$op)*100/$mp;
-								echo " -".ceil($off)."%";
-							?>
-						 </p>
-					</div>
-				</div>
-			</a>
-		</div>		
-		<?php
-				}
-			}
-		?>
+			include 'components/product-card.php';
+				?>
 	</div>
 </div>
 
-<div class="container-fluid padding">
+<div class="container-fluid">
 	<div class="col-12">
  		<h5 class="keyword">Most Popular</h5>
  		<hr class="light-100">
  	</div>
-	<div class="owl-carousel owl-theme">
+	<div class="owl-carousel owl-theme padding">
 				<?php
 			$sql="select orders.cart_id,products.out_of_stock,carts.prod_code,SUM(carts.qty)AS qty, products.prod_name,products.marked_price,products.offer_price,products.color,products.description FROM products JOIN carts ON products.prod_code=carts.prod_code RIGHT JOIN orders ON orders.cart_id=carts.cart_id WHERE products.is_deleted=0 GROUP BY carts.prod_code LIMIT 10;";
-			$res=mysqli_query($conn,$sql);
-			if(mysqli_num_rows($res)>0){
-				while($row=mysqli_fetch_assoc($res))
-				{
-		?>
-		<div class="item">
-			<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>">
-				<div class="card card-alt card-product">
-					<img class="card-img-top img-fluid" src="image/products/<?php echo $row['prod_code'];?>.jpg" alt="Card image cap">
-					<div class="card-body card-body-alt">
-						<a href="<?php if($row['out_of_stock']==0){ echo "php/add_cart.php?prod_code=".$row['prod_code'];} else { echo "product.php?prod_code=".$row['prod_code'];} ?>"><i class="fa fa-cart-plus card-icon"></i></a>
-						<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>"><i class="fa fa-ellipsis-h card-icon"></i></a>
-						<h6><?php echo $row["prod_name"]; ?></h6>
-						<p class="card-text card-text-alt"><?php echo "Rs. ".$row["offer_price"]; ?></p>
-						<p><span style="text-decoration: line-through;"><?php echo "Rs. ".$row["marked_price"]; ?></span>
-							<?php
-								$mp=$row['marked_price'];
-								$op=$row['offer_price'];
-								$off=($mp-$op)*100/$mp;
-								echo " -".ceil($off)."%";
-							?>
-						 </p>
-					</div>
-				</div>
-			</a>
-		</div>		
-		<?php
-				}
-			}
-		?>
+			include 'components/product-card.php';
+			?>
 	</div>
 </div>
 
@@ -285,35 +229,7 @@
 	<div class="owl-carousel owl-theme">
 		<?php
 			$sql="select * from products where is_deleted=0 and tags like '%#women%' limit 10;";
-			$res=mysqli_query($conn,$sql);
-			if(mysqli_num_rows($res)>0){
-				while($row=mysqli_fetch_assoc($res))
-				{
-		?>
-		<div class="item">
-			<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>">
-				<div class="card card-alt card-product">
-					<img class="card-img-top img-fluid" src="image/products/<?php echo $row['prod_code'];?>.jpg" alt="Card image cap">
-					<div class="card-body card-body-alt">
-						<a href="<?php if($row['out_of_stock']==0){ echo "php/add_cart.php?prod_code=".$row['prod_code'];} else { echo "product.php?prod_code=".$row['prod_code'];} ?>"><i class="fa fa-cart-plus card-icon"></i></a>
-						<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>"><i class="fa fa-ellipsis-h card-icon"></i></a>
-						<h6><?php echo $row["prod_name"]; ?></h6>
-						<p class="card-text card-text-alt"><?php echo "Rs. ".$row["offer_price"]; ?></p>
-						<p><span style="text-decoration: line-through;"><?php echo "Rs. ".$row["marked_price"]; ?></span>
-							<?php
-								$mp=$row['marked_price'];
-								$op=$row['offer_price'];
-								$off=($mp-$op)*100/$mp;
-								echo " -".ceil($off)."%";
-							?>
-						 </p>
-					</div>
-				</div>
-			</a>
-		</div>		
-		<?php
-				}
-			}
+			include 'components/product-card.php';
 		?>
 	</div>
 </div>
@@ -334,80 +250,24 @@
 	<div class="owl-carousel owl-theme">
 		<?php
 			$sql="select * from products where is_deleted=0 and tags like '%#".$season."%' limit 10;";
-			$res=mysqli_query($conn,$sql);
-			if(mysqli_num_rows($res)>0){
-				while($row=mysqli_fetch_assoc($res))
-				{
-		?>
-		<div class="item">
-			<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>">
-				<div class="card card-alt card-product">
-					<img class="card-img-top img-fluid" src="image/products/<?php echo $row['prod_code'];?>.jpg" alt="Card image cap">
-					<div class="card-body card-body-alt">
-						<a href="<?php if($row['out_of_stock']==0){ echo "php/add_cart.php?prod_code=".$row['prod_code'];} else { echo "product.php?prod_code=".$row['prod_code'];} ?>"><i class="fa fa-cart-plus card-icon"></i></a>
-						<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>"><i class="fa fa-ellipsis-h card-icon"></i></a>
-						<h6><?php echo $row["prod_name"]; ?></h6>
-						<p class="card-text card-text-alt"><?php echo "Rs. ".$row["offer_price"]; ?></p>
-						<p><span style="text-decoration: line-through;"><?php echo "Rs. ".$row["marked_price"]; ?></span>
-							<?php
-								$mp=$row['marked_price'];
-								$op=$row['offer_price'];
-								$off=($mp-$op)*100/$mp;
-								echo " -".ceil($off)."%";
-							?>
-						 </p>
-					</div>
-				</div>
-			</a>
-		</div>		
-		<?php
-				}
-			}
+			include 'components/product-card.php';
 		?>
 	</div>
 </div>
 
 <!--Owl Carousel-->
-<div class="container-fluid">
+<!-- <div class="container-fluid">
 	<div class="col-12">
  		<h5 class="keyword">Men's Fashion</h5>
 		<hr class="light-100">
 	</div>
 	<div class="owl-carousel owl-theme">
 		<?php
-			$sql="select * from products where is_deleted=0 and tags like '%#men%' limit 10;";
-			$res=mysqli_query($conn,$sql);
-			if(mysqli_num_rows($res)>0){
-				while($row=mysqli_fetch_assoc($res))
-				{
-		?>
-		<div class="item">
-			<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>">
-				<div class="card card-alt card-product">
-					<img class="card-img-top img-fluid" src="image/products/<?php echo $row['prod_code'];?>.jpg" alt="Card image cap">
-					<div class="card-body card-body-alt">
-						<a href="<?php if($row['out_of_stock']==0) echo "php/add_cart.php?prod_code=".$row['prod_code']; else echo "product.php?prod_code=".$row['prod_code']; ?>"><i class="fa fa-cart-plus card-icon"></i></a>
-						<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>"><i class="fa fa-ellipsis-h card-icon"></i></a>
-						<h6><?php echo $row["prod_name"]; ?></h6>
-						<p class="card-text card-text-alt"><?php echo "Rs. ".$row["offer_price"]; ?></p>
-						<p><span style="text-decoration: line-through;"><?php echo "Rs. ".$row["marked_price"]; ?></span>
-							<?php
-								$mp=$row['marked_price'];
-								$op=$row['offer_price'];
-								$off=($mp-$op)*100/$mp;
-								echo " -".ceil($off)."%";
-							?>
-						 </p>
-					</div>
-				</div>
-			</a>
-		</div>		
-		<?php
-				}
-			}
+			// $sql="select * from products where is_deleted=0 and tags like '%#men%' limit 10;";
+			// include 'components/product-card.php';
 		?>
 	</div>
-</div>
+</div> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
 <script type="text/javascript">

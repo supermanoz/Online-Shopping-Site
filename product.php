@@ -139,7 +139,6 @@
 				</p>
 				<p><em class="keyword" style="text-decoration: line-through;"><?php echo "Rs. ".$row['marked_price'];?></em> <?php echo "Rs. ".$row['offer_price'];?></p>
 				<form method="post" action="php/add_cart.php">
-					<label for="must">Color</label>
 					<?php
 						$str=$row['color'];
 						$cnt=substr_count($str,'#');
@@ -148,7 +147,7 @@
 							$pos=strpos($str,'#',$start);
 							$pos1=strpos($str,'#',$pos+1);
 							$color=substr($str,$pos+1,($pos1-$pos-1));
-							echo '<input type="radio" name="color" id="'.$color.'" class="color" value="'.$color.'"><label class="color" for="'.$color.'"><i class="fa fa-circle"  style="color:'.$color.';"></i></label>';
+							echo '<input type="radio" name="color" id="'.$color.'" class="color" value="'.$color.'"><i class="fa fa-check"></i><label class="color" for="'.$color.'"><i class="fa fa-circle"  style="color:'.$color.';"></i></label>';
 							$start=$pos1;
 						}
 					?>
@@ -172,97 +171,11 @@
 					}?>
 				</form>
 					<div class="row">
-						<button class="dtoggle" data-toggle="collapse" data-target="#desc" style="border-radius:5px"> Description </button>
-							<div id="desc" class="collapse">
+						<button class="dtoggle btn btn-outline-light btn-block btn-rounded" data-toggle="collapse" data-target="#desc"> Description &rarr; </button>
+							<div id="desc" class="collapse my-2">
 								<div class="container-fluid padding">
 									<div class="row text-center">
 										<p><?php echo $row['description']; ?></p>
-									</div>
-								</div>
-							</div>
-						<button class="dtoggle" data-toggle="collapse" data-target="#size" style="border-radius:5px"> Size Chart </button>
-							<div id="size" class="collapse">
-								<div class="container-fluid padding">
-									<div class="row text-center">
-										<table class="table table-striped">
-											<thead class="thead-dark">
-												<tr>
-													<td><b>SIZE</b></td>
-													<td><b>CHEST</b></td>
-													<td><b>LENGTH</b></td>
-													<td><b>SLEEVE (SHORT/LONG)</b></td>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>S</td>
-													<td>
-														<span>36"</span>
-													</td>
-													<td>28"</td>
-													<td>
-														<span>7.25" / 26"</span>
-													</td>
-												</tr>
-												<tr>
-													<td>M</td>
-													<td>
-														<span>40"</span>
-													</td>
-													<td>29"</td>
-													<td>
-														<span><span>7.75"</span></span>
-														<span> / 26"</span>
-													</td>
-												</tr>
-												<tr>
-													<td>L</td>
-													<td>42"</td>
-													<td>30"</td>
-													<td>
-														<span><span>8.25"</span></span>
-														<span> / 26"</span>
-													</td>
-												</tr>
-												<tr>
-													<td>XL</td>
-													<td>48"</td>
-													<td>31"</td>
-													<td>
-														<span><span>8.75"</span></span>
-														<span> / 26"</span>
-													</td>
-												</tr>
-												<tr>
-													<td>XXL</td>
-													<td>52"</td>
-													<td>32"</td>
-													<td>
-														<span>9.25"</span> 
-														<span> / 26"</span>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							<button class="dtoggle" data-toggle="collapse" data-target="#question1" style="border-radius:5px"> Shipping &amp; Returns </button>
-							<div id="question1" class="collapse">
-								<div class="container-fluid padding">
-									<div class="row text-center">
-										<h6> Shipping </h6>
-										<p>Everest Fashion Hub aims to deliver your order as quickly as possible. Due to some technical issues, it may take 2-3 business days to deliver your order. We appreciate your patience and always do our best to deliver quickly. </p>
-										<p> Exclusive pieces, limited drops, and other one-off collections may take longer than 2-3 days to deliver, however this is rare. We appreciate your patience! We have an extremely high overall customer service and satisfaction rating for a reason. :) </p>
-
-										<h6> Returns </h6>
-										<p> Returns are offered within 7 days after product delivery on items that are unworn, unaltered and in new condition with all tags attached.  With the exception of items marked FINAL SALE such as sale items and brown bag items. All sale items are marked as final sale. We can accommodate size exchanges on these items, but we are not able to process any refunds. </p>
-
-										<p> Please allow 2-3 business days from the date your package arrives to us for your return or exchange to be processed. </p>
-
-										<p>Please note that return delivery charges are the responsibility of the customer. If a product is defective or received incorrectly, we will be happy to provide a return delivery label.</p>
-
-										<p>If you wish to exchange items to a different size, we will be happy to process the exchange, so long as the new item is in stock. Customers will need to deliver the exchange back to us to process any exchanges. Once we receive the product, the exchange will be sent free of charge back out to the customer. </p>
 									</div>
 								</div>
 							</div>
@@ -288,37 +201,8 @@
 	</div>
 	<div class="owl-carousel owl-theme">
 		<?php
-			
 			$sql="select * from products where is_deleted=0 and tags like '%".$tag."%' limit 10;";
-			$res=mysqli_query($conn,$sql);
-			if(mysqli_num_rows($res)>0){
-				while($row=mysqli_fetch_assoc($res))
-				{
-		?>
-		<div class="item">
-			<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>">
-				<div class="card card-alt card-product">
-					<img class="card-img-top img-fluid" src="image/products/<?php echo $row['prod_code'];?>.jpg" alt="Card image cap">
-					<div class="card-body card-body-alt">
-						<a href="<?php if($row['out_of_stock']==0) echo "php/add_cart.php?prod_code=".$row['prod_code']; else echo "product.php?prod_code=".$row['prod_code']; ?>"><i class="fa fa-cart-plus card-icon"></i></a>
-						<a href="<?php echo "product.php?prod_code=".$row['prod_code']; ?>"><i class="fa fa-ellipsis-h card-icon"></i></a>
-						<h6><?php echo $row["prod_name"]; ?></h6>
-						<p class="card-text card-text-alt"><?php echo "Rs. ".$row["marked_price"]; ?></p>
-						<p><span style="text-decoration: line-through;"><?php echo "Rs. ".$row["offer_price"]; ?></span>
-							<?php
-								$mp=$row['marked_price'];
-								$op=$row['offer_price'];
-								$off=($mp-$op)*100/$mp;
-								echo " -".ceil($off)."%";
-							?>
-						 </p>
-					</div>
-				</div>
-			</a>
-		</div>		
-		<?php
-				}
-			}
+			include 'components/product-card.php';
 		?>
 	</div>
 </div>
@@ -430,7 +314,7 @@
 			?>
 		<div class="row">
 			<div class="col">
-				<a href="index.php" style="float:right"><button class="btn btn-rounded btn-sm btn-outline-light"> <i class="fas fa-arrow-left"></i> Back To Shop</button></a>
+				<a href="index.php" style="float:right"><button class="btn btn-rounded btn-sm btn-outline-light"> &larr; Back To Shop</button></a>
 			</div>
 		</div>
 	</div>
@@ -442,7 +326,7 @@
     margin:70,
     nav:false,
     autoplay:true,
-    autoplayTimeout:4000,
+    autoplayTimeout:2000,
     dots:true,
     responsive:{
         0:{
